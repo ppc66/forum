@@ -1,12 +1,31 @@
 import { createStore } from 'vuex'
+import { createApp } from 'vue'
 
-export default createStore({
-  state: {
+
+
+var store = createStore({
+  actions: {
+
   },
   mutations: {
+    setUser(state,value){
+      // state.user = value;
+      state.user = JSON.parse(localStorage.getItem("access-admin")).data;
+    },
   },
-  actions: {
-  },
+
+
   modules: {
-  }
-})
+  },
+  state: {
+    user:{
+      username:'',
+      postId:'',
+      avatarUrl:''
+    }
+  },
+});
+createApp(app).use(store)
+export default  store
+
+

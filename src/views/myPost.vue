@@ -8,7 +8,7 @@
               <div style="width: 48px;height:48px;transform: translate(0px, 0px);">
                 <img
                     style="width:40px;height: 40px"
-                    :src="user.data.avatarUrl || 'http://localhost:9090/file/8b37fe4b71ed4387a57194030a840700.png'"
+                    :src="user.data.avatarUrl"
                     alt="">
                 <span>{{user.data.username}}</span>
               </div>
@@ -30,15 +30,16 @@
             </div>
           </div>
           <!--     帖子内容     -->
-          <Post/>
+          <MyPost/>
+
         </div>
       </el-card>
   </div>
 </template>
 
 <script>
-import Post from '../components/Post'
 import getDate from "../utils/DateUtil";
+import MyPost from "../components/MyPost";
 export default {
   name: "Home",
   data(){
@@ -52,7 +53,7 @@ export default {
   },
 
   components:{
-    Post
+    MyPost,
   },
   created() {
     var user = JSON.parse(window.localStorage.getItem("access-admin"));
@@ -63,12 +64,10 @@ export default {
   },
   methods:{
     onSubmit(){
-      if (this.form.content.length < 1){
-        this.$message.error("输入的字数太少！")
-        return;
-      }
       var user = JSON.parse(localStorage.getItem("access-admin"));
       //全局事件总线 前端实现发布帖子直接显示  这儿就不用vuex了
+
+
 
       if (user == null){
         this.$message.error("请登录后在进行后续操作!")
@@ -84,9 +83,9 @@ export default {
             postId:'',
             content:this.form.content,
             postTime:getDate(),
-            commentNum:0,
-            replyNum:0,
-            likeNum:0,
+            commentNum:'',
+            replyNum:'',
+            likeNum:'',
             avatarUrl: user.data.avatarUrl
           })
             this.$message({
